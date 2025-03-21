@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Заметки</title>
+</head>
+<body>
+<h1>Заметки</h1>
+<a href="/note/new">Создать новую заметку</a>
+<ul>
+    <li th:each="note : ${notes}">
+        <span th:text="${note.text}"></span>
+        <a th:href="@{'/note/' + ${note.id}}">Редактировать</a>
+        <a th:href="@{'/note/delete/' + ${note.id}}"
+           onclick="return confirm('Удалить заметку?');">Удалить</a>
+    </li>
+</ul>
+</body>
+</html>
