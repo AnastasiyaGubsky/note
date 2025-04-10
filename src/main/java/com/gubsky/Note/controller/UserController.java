@@ -3,6 +3,6 @@ package com.gubsky.Note.controller;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class NoteController {
+public class UserController {
 
 }

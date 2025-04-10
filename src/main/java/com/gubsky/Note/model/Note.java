@@ -1,32 +1,31 @@
 package com.gubsky.Note.model;
 
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "notes")
 public class Note {
 
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long noteId;
+
     private String text;
 
-    public Note() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    }
+    public Note() {}
 
-    public Note(String text) {
+    public Note(String text, User user) {
         this.text = text;
+        this.user = user;
     }
 
-    public Note(Long id, String text) {
-        this.id = id;
-        this.text = text;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        if (this.id != null) {
-            throw new UnsupportedOperationException("ID нельзя изменить после создания");
-        }
-        this.id = id;
+    public Long getNoteId() {
+        return noteId;
     }
 
     public String getText() {
@@ -35,5 +34,13 @@ public class Note {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
