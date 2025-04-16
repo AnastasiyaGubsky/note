@@ -1,6 +1,5 @@
 package com.gubsky.Note.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -17,7 +16,9 @@ public class Note {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Note() {}
+    public Note() {
+
+    }
 
     public Note(String text, User user) {
         this.text = text;
@@ -26,6 +27,10 @@ public class Note {
 
     public Long getNoteId() {
         return noteId;
+    }
+
+    public void setNoteId(Long noteId) {
+        this.noteId = noteId;
     }
 
     public String getText() {

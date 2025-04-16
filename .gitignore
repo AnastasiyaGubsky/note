@@ -38,3 +38,5 @@ build/
 *.tmp
 *.swp
 *.bak
+
+.env

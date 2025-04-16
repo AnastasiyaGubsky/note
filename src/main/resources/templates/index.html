@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Заметки</title>
 </head>
 <body>
 <h1>Заметки</h1>
+<div sec:authorize="isAuthenticated()">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Выйти</button>
+    </form>
+</div>
+
+<div sec:authorize="!isAuthenticated()">
+    <a th:href="@{/login}">Войти</a>
+</div>
 <a href="/note/new">Создать новую заметку</a>
 <ul>
     <li th:each="note : ${notes}">
         <span th:text="${note.text}"></span>
-        <a th:href="@{'/note/' + ${note.id}}">Редактировать</a>
-        <a th:href="@{'/note/delete/' + ${note.id}}"
+        <a th:href="@{'/note/' + ${note.noteId}}">Редактировать</a>
+        <a th:href="@{'/note/delete/' + ${note.noteId}}"
            onclick="return confirm('Удалить заметку?');">Удалить</a>
     </li>
 </ul>

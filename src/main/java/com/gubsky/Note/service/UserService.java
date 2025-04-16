@@ -1,28 +1,39 @@
 package com.gubsky.Note.service;
 
+import com.gubsky.Note.model.Note;
 import com.gubsky.Note.model.User;
+import com.gubsky.Note.repository.NoteRepository;
 import com.gubsky.Note.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final NoteRepository noteRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository,
+    public UserService(UserRepository userRepository, NoteRepository noteRepository,
                        PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.noteRepository = noteRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    @Transactional
+    public User registerUserWithFirstNote(User user) {
+        User newUser = registerUser(user);
+
+        Note firstNote = new Note();
+        firstNote.setText("Добро пожаловать! Это ваша первая заметка.");
+        firstNote.setUser(newUser);
+        noteRepository.save(firstNote);
+
+        return newUser;
     }
 
     public User registerUser(User user) {

@@ -1,5 +1,6 @@
 package com.gubsky.Note.service;
 
+import com.gubsky.Note.exception.ResourceNotFoundException;
 import com.gubsky.Note.model.Note;
 import com.gubsky.Note.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,12 @@ public class NoteService {
     }
 
     public List<Note> getAllNotesForUser(Long userId) {
-        return noteRepository.findByUserId(userId);
+        return noteRepository.findByUserUserId(userId);
     }
 
     public Note getNoteById(Long id) {
-        return noteRepository.findById(id).orElse(null);
+        return noteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Не найдена заметка с id: " + id));
     }
 
     public void saveNote(Note note) {
@@ -30,6 +32,8 @@ public class NoteService {
     }
 
     public void deleteNote(Long id) {
+        Note note = noteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Нельзя удалить: заметка с id " + id + " не найдена"));
         noteRepository.deleteById(id);
     }
 }

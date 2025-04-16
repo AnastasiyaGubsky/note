@@ -2,12 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${note.id} != null ? 'Редактирование заметки' : 'Создание заметки'">Заметка</title>
+    <title th:text="${note.noteId} != null ? 'Редактирование заметки' : 'Создание заметки'">Заметка</title>
 </head>
 <body>
-<h1 th:text="${note.id} != null ? 'Редактирование заметки' : 'Создание заметки'"></h1>
+<h1>Редактирование/Создание заметки</h1>
+<div th:text="${note.noteId} != null ? 'Редактирование заметки' : 'Создание заметки'"></div>
 <form th:action="@{/note}" th:object="${note}" method="post">
-    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{noteId}" />
     <div>
         <textarea th:field="*{text}" rows="10" cols="50" placeholder="Введите текст заметки"></textarea>
     </div>
