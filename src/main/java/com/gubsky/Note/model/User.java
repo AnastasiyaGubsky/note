@@ -80,6 +80,10 @@ public class User implements UserDetails {
         return userId;
     }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
