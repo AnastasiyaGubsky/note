@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * Обрабатывает HTTP‑запросы, связанные с заметками:
+ * – отображение списка заметок,
+ * – создание/редактирование/удаление заметки.
+ */
+
 @Controller
 public class NoteController {
 

@@ -9,6 +9,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Бизнес‑логика по работе с пользователями:
+ * – регистрация нового пользователя,
+ * – создание первой заметки в транзакции,
+ * – кодирование пароля.
+ */
+
 @Service
 public class UserService {
 

@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * Управляет регистрацией и входом пользователей:
+ * – показывает форму регистрации,
+ * – сохраняет нового пользователя с первой заметкой,
+ * – отображает страницу логина.
+ */
+
 @Controller
 public class UserController {
 

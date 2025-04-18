@@ -8,6 +8,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
+/**
+ * Сущность «Пользователь», реализует UserDetails:
+ * – хранит логин, пароль, email и список заметок,
+ * – предоставляет Spring Security данные для аутентификации.
+ */
+
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {

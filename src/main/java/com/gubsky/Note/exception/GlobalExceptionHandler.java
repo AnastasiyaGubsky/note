@@ -6,6 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * Глобальный обработчик исключений:
+ * – ловит ResourceNotFoundException и отдаёт страницу not‑found,
+ * – ловит прочие исключения и отдаёт общую страницу error.
+ */
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

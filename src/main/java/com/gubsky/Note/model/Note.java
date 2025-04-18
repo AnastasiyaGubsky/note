@@ -3,6 +3,11 @@ package com.gubsky.Note.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+/**
+ * Сущность «Заметка»:
+ * – хранит идентификатор, текст и связь с пользователем.
+ */
+
 @Entity
 @Table(name = "notes")
 public class Note {

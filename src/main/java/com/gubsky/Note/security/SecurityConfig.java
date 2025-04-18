@@ -6,6 +6,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * Настройки Spring Security:
+ * – публичные и защищённые маршруты,
+ * – страницы логина/логаута,
+ * – BCrypt‑шифрование пароля.
+ */
+
 @Configuration
 public class SecurityConfig {
 

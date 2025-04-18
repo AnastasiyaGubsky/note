@@ -11,6 +11,15 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import java.time.Duration;
 
+
+/**
+ * Конфигурирует Redis:
+ * – задаёт время жизни записей,
+ * – отключает кэширование null,
+ * – настраивает сериализацию значений в JSON,
+ * – создаёт CacheManager.
+ */
+
 @Configuration
 public class RedisCacheConfig {
     @Bean

@@ -12,6 +12,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Бизнес‑логика по работе с заметками:
+ * – получение, сохранение, удаление заметок,
+ * – кэширование.
+ */
+
 @Service
 public class NoteService {
 
