@@ -45,8 +45,9 @@ public class NoteController {
     }
 
     @GetMapping("/note/delete/{id}")
-    public String deleteNote(@PathVariable Long id) {
-        noteService.deleteNote(id);
+    public String deleteNote(@PathVariable("id") Long noteId, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        noteService.deleteNote(user.getUserId(), noteId);
         return "redirect:/";
     }
 
