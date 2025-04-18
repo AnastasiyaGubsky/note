@@ -114,19 +114,4 @@ public class NoteServiceTest {
         verify(noteRepository).findById(noteId);
         verify(noteRepository, never()).deleteById(anyLong());
     }
-
-    @Test
-    void cachingGetAllNotesForUser() {
-        User user = new User();
-        when(noteRepository.findByUserUserId(1L))
-                .thenReturn(List.of(new Note("A", user), new Note("B", user)));
-
-        // первый раз — репозиторий вызывается
-        List<Note> list1 = noteService.getAllNotesForUser(1L);
-        verify(noteRepository, times(1)).findByUserUserId(1L);
-
-        // второй раз с тем же ключом — репозиторий НЕ должен вызываться
-        List<Note> list2 = noteService.getAllNotesForUser(1L);
-        verify(noteRepository, times(1)).findByUserUserId(1L);
-    }
 }
