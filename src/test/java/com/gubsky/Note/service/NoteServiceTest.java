@@ -2,6 +2,7 @@ package com.gubsky.Note.service;
 
 import com.gubsky.Note.exception.ResourceNotFoundException;
 import com.gubsky.Note.model.Note;
+import com.gubsky.Note.model.User;
 import com.gubsky.Note.repository.NoteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,24 +82,51 @@ public class NoteServiceTest {
 
     @Test
     void deleteNote_existing_shouldDeletes() {
+        Long userId = 1L;
+        Long noteId = 5L;
+
+        User user = new User();
+        user.setUserId(userId);
+
         Note toDelete = new Note();
-        toDelete.setText("Delete Note");
-        when(noteRepository.findById(5L)).thenReturn(Optional.of(toDelete));
+        toDelete.setUser(user);
 
-        noteService.deleteNote(5L);
+        when(noteRepository.findById(noteId)).thenReturn(Optional.of(toDelete));
 
-        verify(noteRepository).findById(5L);
-        verify(noteRepository).deleteById(5L);
+        noteService.deleteNote(userId, noteId);
+
+        verify(noteRepository).findById(noteId);
+        verify(noteRepository).deleteById(noteId);
     }
 
     @Test
     void deleteNote_nonExisting_shouldThrowsException() {
-        when(noteRepository.findById(123L)).thenReturn(Optional.empty());
+        Long userId = 1L;
+        Long noteId = 123L;
+        when(noteRepository.findById(noteId)).thenReturn(Optional.empty());
 
-        ResourceNotFoundException ex =
-                assertThrows(ResourceNotFoundException.class, () -> noteService.deleteNote(123L));
-        assertEquals("Нельзя удалить: заметка с id 123 не найдена", ex.getMessage());
-        verify(noteRepository).findById(123L);
+        ResourceNotFoundException ex = assertThrows(
+                ResourceNotFoundException.class,
+                () -> noteService.deleteNote(userId, noteId)
+        );
+
+        assertEquals("Нельзя удалить: заметка с id " + noteId + " не найдена", ex.getMessage());
+        verify(noteRepository).findById(noteId);
         verify(noteRepository, never()).deleteById(anyLong());
+    }
+
+    @Test
+    void cachingGetAllNotesForUser() {
+        User user = new User();
+        when(noteRepository.findByUserUserId(1L))
+                .thenReturn(List.of(new Note("A", user), new Note("B", user)));
+
+        // первый раз — репозиторий вызывается
+        List<Note> list1 = noteService.getAllNotesForUser(1L);
+        verify(noteRepository, times(1)).findByUserUserId(1L);
+
+        // второй раз с тем же ключом — репозиторий НЕ должен вызываться
+        List<Note> list2 = noteService.getAllNotesForUser(1L);
+        verify(noteRepository, times(1)).findByUserUserId(1L);
     }
 }

@@ -73,9 +73,9 @@ public class NoteControllerTest {
 
     @Test
     void deleteNote_shouldCallServiceAndRedirect() {
-        String view = controller.deleteNote(123L);
+        String view = controller.deleteNote(123L, authentication);
 
-        verify(noteService).deleteNote(123L);
+        verify(noteService).deleteNote(42L, 123L);
         assertEquals("redirect:/", view);
     }
 
