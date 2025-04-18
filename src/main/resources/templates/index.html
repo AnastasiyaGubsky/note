@@ -3,25 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>Заметки</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #111;
+            margin: 0;
+            padding: 2rem;
+            position: relative;
+            min-height: 100vh;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            /* кнопки авторизации будут «прижаты» вправо */
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .create-button {
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        .auth-buttons {
+            margin-left: auto;
+            display: flex;
+            gap: 10px;
+        }
+        .auth-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 2rem;
+        }
+        li {
+            background: #f5f5f5;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li a {
+            margin-left: 10px;
+            color: #333;
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
-<h1>Заметки</h1>
-<div sec:authorize="isAuthenticated()">
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Выйти</button>
-    </form>
-</div>
+<header>
+    <h1>Заметки</h1>
+    <a href="/note/new" class="create-button">Создать новую заметку</a>
+    <div class="auth-buttons">
+        <div sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="margin:0;">
+                <button type="submit" class="auth-button">Выйти</button>
+            </form>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            <a th:href="@{/login}" class="auth-button">Войти</a>
+        </div>
+    </div>
+</header>
 
-<div sec:authorize="!isAuthenticated()">
-    <a th:href="@{/login}">Войти</a>
-</div>
-<a href="/note/new">Создать новую заметку</a>
 <ul>
     <li th:each="note : ${notes}">
         <span th:text="${note.text}"></span>
-        <a th:href="@{'/note/' + ${note.noteId}}">Редактировать</a>
-        <a th:href="@{'/note/delete/' + ${note.noteId}}"
-           onclick="return confirm('Удалить заметку?');">Удалить</a>
+        <div>
+            <a th:href="@{'/note/' + ${note.noteId}}">Редактировать</a>
+            <a th:href="@{'/note/delete/' + ${note.noteId}}"
+               onclick="return confirm('Удалить заметку?');">Удалить</a>
+        </div>
     </li>
 </ul>
 </body>

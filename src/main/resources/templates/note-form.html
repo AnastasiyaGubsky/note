@@ -3,19 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${note.noteId} != null ? 'Редактирование заметки' : 'Создание заметки'">Заметка</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #fafafa;
+            color: #111;
+            height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 500px;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        form div {
+            margin-bottom: 1rem;
+        }
+        textarea {
+            width: 100%;
+            resize: vertical;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            min-height: 200px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        button, .actions a {
+            flex: 1;
+            padding: 0.6rem;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        button {
+            background: #333;
+            color: #fff;
+        }
+        .actions a {
+            background: #f0f0f0;
+            color: #111;
+        }
+    </style>
 </head>
 <body>
-<h1>Редактирование/Создание заметки</h1>
-<div th:text="${note.noteId} != null ? 'Редактирование заметки' : 'Создание заметки'"></div>
-<form th:action="@{/note}" th:object="${note}" method="post">
-    <input type="hidden" th:field="*{noteId}" />
-    <div>
-        <textarea th:field="*{text}" rows="10" cols="50" placeholder="Введите текст заметки"></textarea>
-    </div>
-    <div>
-        <button type="submit">Сохранить</button>
-        <a href="/">Отмена</a>
-    </div>
-</form>
+<div class="card">
+    <h1 th:text="${note.noteId} != null ? 'Редактирование заметки' : 'Создание заметки'"></h1>
+    <form th:action="@{/note}" th:object="${note}" method="post">
+        <input type="hidden" th:field="*{noteId}" />
+        <div>
+            <textarea th:field="*{text}" placeholder="Введите текст заметки"></textarea>
+        </div>
+        <div class="actions">
+            <button type="submit">Сохранить</button>
+            <a href="/">Отмена</a>
+        </div>
+    </form>
+</div>
 </body>
 </html>
