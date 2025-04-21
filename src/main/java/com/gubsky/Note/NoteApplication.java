@@ -15,8 +15,9 @@ public class NoteApplication {
 		System.setProperty("DB_URL", dotenv.get("DB_URL"));
 		System.setProperty("DB_USER", dotenv.get("DB_USER"));
 		System.setProperty("DB_PASS", dotenv.get("DB_PASS"));
+		System.setProperty("SPRING_REDIS_HOST", dotenv.get("SPRING_REDIS_HOST"));
+		System.setProperty("SPRING_REDIS_PORT", dotenv.get("SPRING_REDIS_PORT"));
 
 		SpringApplication.run(NoteApplication.class, args);
 	}
-
 }
