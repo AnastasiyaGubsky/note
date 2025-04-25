@@ -1,6 +1,5 @@
 package com.gubsky.Note;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -10,14 +9,6 @@ import org.springframework.cache.annotation.EnableCaching;
 public class NoteApplication {
 
 	public static void main(String[] args) {
-
-		Dotenv dotenv = Dotenv.load();
-		System.setProperty("DB_URL", dotenv.get("DB_URL"));
-		System.setProperty("DB_USER", dotenv.get("DB_USER"));
-		System.setProperty("DB_PASS", dotenv.get("DB_PASS"));
-		System.setProperty("SPRING_REDIS_HOST", dotenv.get("SPRING_REDIS_HOST"));
-		System.setProperty("SPRING_REDIS_PORT", dotenv.get("SPRING_REDIS_PORT"));
-
 		SpringApplication.run(NoteApplication.class, args);
 	}
 }

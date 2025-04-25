@@ -1,40 +1,49 @@
 services:
-  redis:
-    image: redis:7.4.2-alpine
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
-
   db:
     image: postgres:15
-    restart: unless-stopped
+    container_name: note-postgres
     environment:
-      POSTGRES_DB: "note"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-    ports:
-      - "5432:5432"
+      POSTGRES_DB:       note
+      POSTGRES_USER:     postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:latest
+    container_name: note-redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   app:
     build:
       context: .
-    restart: unless-stopped
-    ports:
-      - "8081:8081"
+    container_name: note-app
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8083:8083"
     environment:
       SPRING_DATASOURCE_URL:      jdbc:postgresql://db:5432/note
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_REDIS_HOST:          redis
-      SPRING_REDIS_PORT:          "6379"
+      SPRING_REDIS_PORT:          6379
+    command: ["java", "-jar", "app.jar", "--debug"]
 
 volumes:
-  redis-data:
   pgdata:
+  redis-data:
